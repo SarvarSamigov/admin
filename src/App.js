@@ -1,77 +1,79 @@
 import React from 'react';
-import { Layout,Menu} from 'antd';
-import { Header,Content  } from 'antd/es/layout/layout';
+import { Layout,Menu,} from 'antd';
+import { Header,Content} from 'antd/es/layout/layout';
+import { Route, Routes,useNavigate } from 'react-router-dom';
+import { Table1 } from './components/menu';
+import { Login } from './components/login';
+import { Typography, Card } from 'antd'
+ 
 import Sider from 'antd/es/layout/Sider';
 
 import { useState } from 'react';
-
-import {AiOutlineHome} from 'react-icons/ai'
-import {GrOrganization} from 'react-icons/gr'
-import {BsPersonSquare} from "react-icons/bs"
+import {FiUsers} from "react-icons/fi"
 import {GiHamburgerMenu} from "react-icons/gi"
 import {FiLogIn} from "react-icons/fi"
-import {HiOutlineNewspaper} from "react-icons/hi2"
-
-
 
 import './styles/dashboard.css'
 
-
-
 function App() {
+  const navigate = useNavigate()
  const [collpased,setCollpased] = useState(false)
 
 
   return (
    
    <Layout className='container'>
+    
       <Header className='header'>
       
       <div style={{display: "flex",alignItems:"center"}} >
         <GiHamburgerMenu onClick={()=>{
           setCollpased(!collpased)
-        }} size={28} style={{marginRight : 20}}/>
-        <div className="brand">Admin Panel </div>
+        }} size={15} style={{marginRight : 20}}/>
+        <div className="brand"> <img src="./logo1.png" height={40} alt="" /> </div>
       
       </div>
-      
+  
       </Header>
       
       
       <Layout>
       <Sider className='sider' collapsed={collpased} theme='light'>
-        <Menu style={{fontSize:15,borderRadius:20}} 
+        
+        <Menu 
+        onClick = {({key})=>{
+           
+            navigate(key);
+          
+          
+        }}
+        style={{fontSize:15,borderRadius:10}} 
         mode='inline'
         items={[
             {
-              key: 'home',
-              icon:  <AiOutlineHome/>,
-              label: 'Home',
-              children: [{
-                label : "All Users",
-                key : "all_users",
-                icon: <BsPersonSquare/>
-              }]
+              key: '/users_table',
+              icon:  <FiUsers/>,
+              label: 'Users table',
             },
-            {
-              key: 'about_us',
-              icon:  <GrOrganization/>,
-              label: 'About Us',
-            },
-            {key: 'login',
+            
+            {key: '/login',
               icon:  <FiLogIn/>,
-              label: 'Login'
+              label: 'Login',
+              danger:"true"
             },
-            {key: 'register',
-              icon:  <HiOutlineNewspaper/>,
-              label: 'Register'
-          }
+           
           ]} />  
 
        </Sider>
+ 
+      <Content className='content' >
+       
 
-      <Content>
-          
+      <Routes>
+        <Route path='/login' element={<div><Login/></div>} ></Route>
+        <Route path='/users_table' element={<div><Table1/></div>} ></Route>
+      </Routes>
+
       </Content>
       </Layout>
     </Layout>
