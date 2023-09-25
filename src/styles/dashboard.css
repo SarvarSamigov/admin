@@ -5,24 +5,20 @@
 }
 
 .header {
-  background-color: rgb(255, 255, 255) ;
-  border-bottom: 1px solid  rgb(235, 233, 233) ;
+  background-color: rgb(255, 255, 255);
+  border-bottom: 1px solid rgb(235, 233, 233);
   margin-bottom: 5px;
   border-radius: 20px;
-
- 
 }
 
 .content {
-padding: 5px 14px;
-
+  padding: 5px 14px;
 }
-.sider{
-border-radius: 20px;
+.sider {
+  border-radius: 20px;
 }
 
 .paragraph {
-
   width: 100vw;
   display: flex;
   justify-content: center;
