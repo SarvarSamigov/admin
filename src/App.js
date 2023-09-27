@@ -1,19 +1,21 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./components/LoginPage";
-import PrivateRoute from "./utils/PrivateRoute";
-import { AuthProvider } from "./context/AuthContext";
+import LoginPage from "./pages/LoginPage";
+import PrivateRoutes from "./utils/PrivateRoutes";
+import UsersTable from "./components/usersTable";
+
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <PrivateRoute path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Routes>
-        </AuthProvider>
+        <Routes>
+          <Route elemen={<PrivateRoutes />}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
+          <Route path="/usersTable" element={<UsersTable/>}></Route>
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );

@@ -24,3 +24,15 @@
   justify-content: center;
   align-items: center;
 }
+.left-nav {
+  float: left;
+  list-style: none;
+  display: flex;
+}
+
+.right-nav {
+  float: right;
+  list-style: none ;
+  display: flex;
+  padding-right: 30px;
+}

@@ -1,64 +1,70 @@
-import React, { useContext, useState } from "react";
-import { Layout, Menu } from "antd";
+import React, { useState } from "react";
+import { Layout, Menu, Button } from "antd";
 import { Content } from "antd/es/layout/layout";
-import { useNavigate } from "react-router-dom";
 import UsersTable from "../components/usersTable";
 import { Header } from "antd/es/layout/layout";
-import { GiHamburgerMenu } from "react-icons/gi"; 
-import  {Link} from 'react-router-dom'
-
-
+import { GiHamburgerMenu } from "react-icons/gi";
+import { Navigate, useNavigate } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
 
 import { FiUsers } from "react-icons/fi";
 
-
 import "../styles/dashboard.css";
-import AuthContext from "../context/AuthContext";
 
+function HomePage({ route }) {
+  const [navigate, setNavigate] = useState(false);
+  const [collpased, setCollpased] = useState(false);
+  const navigateMenu = useNavigate();
+  const logout = () => {
+    localStorage.clear();
+    setNavigate(true);
+  };
 
-function HomePage() {
-  const navigate = useNavigate();
-    let {user, logoutUser} = useContext(AuthContext)
-    const [collpased, setCollpased] = useState(false);
+  if (navigate) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
       <Layout className="container">
+        <Header className="header">
+          <ul className="left-nav">
+            <li>
+              <GiHamburgerMenu
+                onClick={() => {
+                  setCollpased(!collpased);
+                }}
+                size={15}
+                style={{ marginRight: 20 }}
+              />
+            </li>
 
-    
-      <Header className="header">
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <GiHamburgerMenu
-            onClick={() => {
-              setCollpased(!collpased);
-            }}
-            size={15}
-            style={{ marginRight: 20 }}
-          />
-          <div className="brand">
-            {" "}
-            <img src="./logo1.png" height={40} alt="" />
+            <li>
+              <img src="./logo1.png" alt="logo" height={40} />
+            </li>
+          </ul>
 
-            {user ? (
-                 <p  onClick={logoutUser}>Logout</p>
-            ): (
-                <Link to="/login" >Login</Link>
-            )}
-          </div>
-        </div>
-      </Header>
+          <ul className="right-nav">
+            <li>
+              {" "}
+              <Button type="primary" danger onClick={logout}>
+                LogOut
+              </Button>
+            </li>
+          </ul>
+        </Header>
+
         <Layout>
           <Sider className="sider" collapsed={collpased} theme="light">
             <Menu
               onClick={({ key }) => {
-                navigate(key);
+                navigateMenu(key);
               }}
               style={{ fontSize: 15, borderRadius: 10 }}
               mode="inline"
               items={[
                 {
-                  key: "/users_table",
+                  key: "/usersTable",
                   icon: <FiUsers />,
                   label: "Users table",
                 },
@@ -67,7 +73,7 @@ function HomePage() {
           </Sider>
 
           <Content className="content">
-            <UsersTable />
+            <UsersTable></UsersTable>
           </Content>
         </Layout>
       </Layout>
