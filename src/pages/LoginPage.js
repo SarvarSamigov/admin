@@ -15,7 +15,6 @@ const LoginPage = () => {
         email,
         password,
       })
-
       .then((res) => {
         console.log(res);
         const { accessToken, refreshToken } = res.data;

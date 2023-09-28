@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Layout, Menu, Button } from "antd";
 import { Content } from "antd/es/layout/layout";
-import UsersTable from "../components/usersTable";
 import { Header } from "antd/es/layout/layout";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
 
 import { FiUsers } from "react-icons/fi";
@@ -73,7 +72,7 @@ function HomePage({ route }) {
           </Sider>
 
           <Content className="content">
-            <UsersTable></UsersTable>
+             <Outlet/>
           </Content>
         </Layout>
       </Layout>

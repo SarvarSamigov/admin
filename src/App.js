@@ -11,9 +11,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route elemen={<PrivateRoutes />}>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage />}>
+              <Route path="/usersTable" element={<UsersTable/>}/>
+            </Route>
           </Route>
-          <Route path="/usersTable" element={<UsersTable/>}></Route>
+          <Route path="/usersTable" element={<UsersTable />}></Route>
           <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
