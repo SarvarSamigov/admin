@@ -9,25 +9,39 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [navigate, setNavigate] = useState(false);
 
-  const formSuccess = () => {
-    axios
-      .post("users/auth", {
+  const formSuccess = async() => {
+   const data = await axios.post("users/auth", {
         email,
         password,
-      })
-      .then((res) => {
-        console.log(res);
-        const { accessToken, refreshToken } = res.data;
-        localStorage.setItem("access", accessToken);
-        localStorage.setItem("refresh", refreshToken);
-
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${res.data["accessToken"]}`;
       });
+      const { accessToken, refreshToken } = data;
+      localStorage.setItem("access", accessToken);
+      localStorage.setItem("refresh", refreshToken);
+      console.log(data)
+
+    axios.defaults.headers.common["Authorization"] = `Bearer ${data["accessToken"]}`;
+      
 
     setNavigate(true);
   };
+
+  // const formSuccess = async() => {
+  //   axios
+  //     .post("users/auth", {
+  //       email,
+  //       password,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       const { accessToken, refreshToken } = res.data;
+  //       localStorage.setItem("access", accessToken);
+  //       localStorage.setItem("refresh", refreshToken);
+
+  //       axios.defaults.headers.common["Authorization"] = `Bearer ${res.data["accessToken"]}`;
+  //     });
+
+  //   setNavigate(true);
+  // };
 
   if (navigate) {
     return <Navigate to="/" />;
