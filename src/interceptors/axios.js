@@ -12,7 +12,7 @@ axios.interceptors.response.use(
     
       refresh = true;
       const rToken = localStorage.getItem("refresh")
-      const response = await axios.post("users/auth/refreshToken", {rToken});
+      const response = await axios.post("users/auth/refreshToken", {refreshToken : rToken});
       const {refreshToken
       } = response.data;
       localStorage.setItem('refresh', refreshToken

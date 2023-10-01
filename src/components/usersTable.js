@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Input, Form } from "antd";
+import { Table, Button, Modal, Form } from "antd";
 import axios from "axios";
 import "../styles/table.css";
+import MyForm from "./Form";
 
-const { Item } = Form;
 
 const layout = {
   labelCol: {
@@ -17,22 +17,54 @@ const layout = {
 const UsersTable = () => {
   const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
-  const [aritista, setArtista] = useState({
-    id: "",
-    aritista: "",
-    pais: "",
-    periodo: "",
+  const [modalEdit, setModalEdit]=useState(false);
+  const [modalRemove, setModalRemove]=useState(false);
+  const [user, setUser] = useState({
+    Id: "",
+    name: "",
+    Dean_user_id: "",
+    course_id: "",
+    group_max_count: "",
+    stutent_max_count: "",
+    description: "",
+    license_start_date: "",
+    license_finish_date: "",
+    region_id: "",
+    tuman_id: "",
+    max_filial_count: "",
+    image: "",
+    status: "",
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: "",
+    is_deleted: "",
+    created_by: "",
+    update_by: "",
+    deanUserId: "",
+    courseId: "",
+    groupMaxCount: "",
+    stutentMaxCount: "",
+    licenseStartDate: "",
+    licenseFinishDate: "",
+    regionId: "",
+    tumanId: "",
+    maxFilialCount: "",
+    isDeleted: "",
+    createdBy: "",
+    updateBy: "",
   });
 
   const isOpenedModal = () => {
     setModalInsertar(!modalInsertar);
   };
+    const openCloseModalEdit=()=>{
+    setModalEdit(!modalEdit);
+  }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setArtista({ ...aritista, [name]: value });
-    console.log(aritista);
-  };
+  const openCloseModalDelete=()=>{
+    setModalRemove(!modalRemove);
+  }
+
 
   const columns = [
     { title: "Id", dataIndex: "id", key: "id" },
@@ -75,15 +107,13 @@ const UsersTable = () => {
         <>
           <Button type="primary">Редактировать</Button>
           {"  "}
-          <Button type="primary" danger>
-            Удальть
-          </Button>
+          <Button type="primary" danger>Удальть</Button>
         </>
       ),
     },
   ];
 
-  const petcionGet = async () => {
+  const UsersData = async () => {
     await axios.get('centers')
       .then((response) => {
         setData(response.data);
@@ -95,8 +125,8 @@ const UsersTable = () => {
   };
 
   const response = async () => {
-    delete aritista.id;
-    await axios.post('centers', aritista)
+    delete user.id;
+    await axios.post('centers', user)
       .then((response) => {
         setData(response.data);
       })
@@ -104,11 +134,38 @@ const UsersTable = () => {
         console.log(error);
       });
   };
+  
+  const requestPut=async()=>{
+    await axios.put("/"+user.Id, user)
+    .then(response=>{
+      var dataAuxiliar=data;
+      dataAuxiliar.map(element=>{
+        if(element.id===user.Id){
+          element.name=user.name;
+           // etc.
+        }
+      });
+      setData(dataAuxiliar);
+      openCloseModalEdit();
+    }).catch(error=>{
+      console.log(error);
+    })
+      }
 
-  useEffect(() => {
-    petcionGet();
-  }, []);
+      
+  const peticionDelete=async()=>{
+    await axios.delete("/"+user.Id)
+    .then(response=>{
+      setData(data.filter(element=>element.id!==user.Id));
+      openCloseModalDelete();
+    }).catch(error=>{
+      console.log(error);
+    })
+      }
 
+useEffect(()=>{
+UsersData();
+},[])
   return (
     <div className="App">
       <br />
@@ -122,7 +179,7 @@ const UsersTable = () => {
 
       <Modal
         open={modalInsertar}
-        title="Пользователь "
+        title="Пользователь"
         destroyOnClose={true}
         onCancel={isOpenedModal}
         centered
@@ -134,17 +191,8 @@ const UsersTable = () => {
         ]}
       >
         <Form {...layout}>
-          <Item label="Artista">
-            <Input name="artista" onChange={handleChange}></Input>
-          </Item>
+        <MyForm/>
 
-          <Item label="Periodo de Ac">
-            <Input name="periodo" onChange={handleChange}></Input>
-          </Item>
-
-          <Item label="Artista">
-            <Input name="artista" onChange={handleChange}></Input>
-          </Item>
         </Form>
       </Modal>
     </div>
